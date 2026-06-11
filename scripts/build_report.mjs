@@ -2,6 +2,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
 const args = parseArgs(process.argv.slice(2));
 if (!args.input) {
@@ -11,7 +12,8 @@ if (!args.input) {
 
 const input = path.resolve(args.input);
 const output = path.resolve(args.output || input.replace(/\.json$/i, ".html"));
-const skillDir = path.resolve(args.skillDir || path.join(path.dirname(new URL(import.meta.url).pathname), ".."));
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const skillDir = path.resolve(args.skillDir || path.join(scriptDir, ".."));
 const templatePath = path.resolve(args.template || path.join(skillDir, "assets", "report_template.html"));
 const report = JSON.parse(fs.readFileSync(input, "utf8"));
 const template = fs.readFileSync(templatePath, "utf8");
