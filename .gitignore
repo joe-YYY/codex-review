@@ -1,0 +1,18 @@
+# Local report outputs
+reports/
+data/
+
+# Local draft / personal workspace files
+skill-draft/
+tools/
+RULES.md
+
+# Runtime noise
+.DS_Store
+node_modules/
+.env
+.env.*
+
+# Temporary files
+*.log
+*.tmp
