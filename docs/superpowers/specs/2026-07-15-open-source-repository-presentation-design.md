@@ -2,7 +2,7 @@
 
 ## Goal
 
-Turn the repository into a clear, credible bilingual open-source project page
+Turn the repository into a clear, credible Chinese-first bilingual open-source project page
 without overstating the current skill's capabilities or adding empty community
 documents merely for appearance.
 
@@ -14,8 +14,8 @@ documents merely for appearance.
 
 ## Public Documentation Structure
 
-- `README.md`: English default landing page.
-- `README.zh-CN.md`: complete Simplified Chinese version.
+- `README.md`: Simplified Chinese default landing page.
+- `README.en.md`: complete English version.
 - `LICENSE`: MIT License, copyright holder `joe-YYY`.
 - `CONTRIBUTING.md`: short contribution and validation guide.
 
@@ -25,7 +25,7 @@ community process or automation.
 
 ## README Information Architecture
 
-The English and Chinese README files use the same section order:
+The Chinese and English README files use the same section order:
 
 1. Project name, language switch, and one-sentence positioning.
 2. What the skill does and the practical questions it answers.
@@ -38,7 +38,9 @@ The English and Chinese README files use the same section order:
 9. Repository structure.
 10. Contributing, roadmap, and license.
 
-The first screen should prioritize identity, value, and the fastest path to use.
+The Chinese README is the repository's default GitHub landing page. Both
+language versions should link to each other near the title. The first screen
+should prioritize identity, value, and the fastest path to use.
 Long explanations, repeated prompt examples, and internal implementation notes
 should be reduced.
 
