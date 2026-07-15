@@ -6,6 +6,7 @@ data/
 skill-draft/
 tools/
 RULES.md
+.learnings/
 
 # Runtime noise
 .DS_Store

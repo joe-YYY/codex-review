@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
-import { spawn } from "node:child_process";
-import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const args = parseArgs(process.argv.slice(2));
 if (!args.input) {
@@ -264,19 +264,43 @@ fs.mkdirSync(path.dirname(output), { recursive: true });
 fs.writeFileSync(output, html);
 
 const shouldOpen = args.open !== false && args["no-open"] !== true;
-if (shouldOpen) openReport(output);
+const openResult = shouldOpen ? openReport(output) : { opened: false, attempted: false };
 
-console.log(JSON.stringify({ output, opened: shouldOpen, projectCount: projects.length, totalMinutes, totalToken }, null, 2));
+console.log(JSON.stringify({ output, ...openResult, projectCount: projects.length, totalMinutes, totalToken }, null, 2));
 
 function openReport(file) {
-  const target = `file://${file}`;
   const platform = process.platform;
-  const command = platform === "darwin" ? "open" : platform === "win32" ? "cmd" : "xdg-open";
-  const commandArgs = platform === "win32" ? ["/c", "start", "", target] : [target];
-  try {
-    const child = spawn(command, commandArgs, { detached: true, stdio: "ignore" });
-    child.unref();
-  } catch (error) {
-    console.error(`报告已生成，但自动打开失败：${error.message}`);
+  const fileUrl = pathToFileURL(file).href;
+  const fileAttempts = platform === "darwin"
+    ? [
+        ["open", file],
+        ["open", "-a", "Google Chrome", file],
+        ["open", "-a", "Safari", file],
+        ["agent-browser", "open", fileUrl],
+        ["open", fileUrl],
+      ]
+    : platform === "win32"
+      ? [["cmd", "/c", "start", "", fileUrl]]
+      : [["xdg-open", fileUrl]];
+  const errors = [];
+  for (const [command, ...commandArgs] of fileAttempts) {
+    const result = spawnSync(command, commandArgs, { encoding: "utf8" });
+    const opened = result.status === 0 && !result.error;
+    const openCommand = [command, ...commandArgs].join(" ");
+    if (opened) {
+      return {
+        opened: true,
+        attempted: true,
+        openCommand,
+      };
+    }
+    const error = result.error?.message || result.stderr?.trim() || `${command} exited with ${result.status}`;
+    errors.push(`${openCommand}: ${error}`);
   }
+  console.error(`报告已生成，但自动打开失败：${errors.join(" | ")}`);
+  return {
+    opened: false,
+    attempted: true,
+    openError: errors.join(" | "),
+  };
 }
