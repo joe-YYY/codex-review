@@ -1,68 +1,57 @@
-# Open-Source Repository Presentation Design
+# 开源仓库门面设计说明
 
-## Goal
+## 目标
 
-Turn the repository into a clear, credible Chinese-first bilingual open-source project page
-without overstating the current skill's capabilities or adding empty community
-documents merely for appearance.
+把仓库整理成清晰、可信、中文优先的双语开源项目页面，同时不夸大 skill 的能力，也不为了显得完整而增加没有实际流程支撑的社区文件。
 
-## Audience
+## 主要读者
 
-- First-time Codex users looking for a reusable weekly review workflow.
-- Existing Codex users who want to inspect local usage patterns and reports.
-- Contributors who may improve scanning, report generation, or documentation.
+- 第一次接触 Codex、希望使用每周复盘工作流的用户。
+- 希望分析本地使用习惯和报告的现有 Codex 用户。
+- 希望改进扫描、报告生成或文档的贡献者。
 
-## Public Documentation Structure
+## 公开文档结构
 
-- `README.md`: Simplified Chinese default landing page.
-- `README.en.md`: complete English version.
-- `LICENSE`: MIT License, copyright holder `joe-YYY`.
-- `CONTRIBUTING.md`: short contribution and validation guide.
+- `README.md`：GitHub 默认展示的简体中文首页。
+- `README.en.md`：完整英文版。
+- `LICENSE`：MIT License，版权署名 `joe-YYY`。
+- `CONTRIBUTING.md`：简短的贡献流程和验证要求。
 
-`CODE_OF_CONDUCT.md`, `SECURITY.md`, release notes, issue templates, and CI
-badges are intentionally excluded until the project has the corresponding
-community process or automation.
+在项目尚未形成对应社区流程和自动化之前，不增加 `CODE_OF_CONDUCT.md`、`SECURITY.md`、发布日志、Issue 模板和 CI 徽章。
 
-## README Information Architecture
+## README 信息结构
 
-The Chinese and English README files use the same section order:
+中文和英文 README 使用相同的章节顺序：
 
-1. Project name, language switch, and one-sentence positioning.
-2. What the skill does and the practical questions it answers.
-3. Feature overview.
-4. Installation with the real GitHub clone URL.
-5. Quick start in Codex.
-6. Weekly automation prompt.
-7. Manual script usage.
-8. Local data and privacy boundaries.
-9. Repository structure.
-10. Contributing, roadmap, and license.
+1. 项目名称、语言切换和一句话定位。
+2. Skill 能做什么，以及它帮助回答哪些实际问题。
+3. 功能概览。
+4. 使用真实 GitHub 地址的安装方式。
+5. Codex 快速开始。
+6. 每周自动复盘。
+7. 手动运行脚本。
+8. 本地数据和隐私边界。
+9. 仓库结构。
+10. 参与贡献、路线图和开源协议。
 
-The Chinese README is the repository's default GitHub landing page. Both
-language versions should link to each other near the title. The first screen
-should prioritize identity, value, and the fastest path to use.
-Long explanations, repeated prompt examples, and internal implementation notes
-should be reduced.
+中文 README 是 GitHub 默认首页，两个语言版本在标题附近互相提供入口。第一屏优先展示项目身份、实际价值和最快使用路径。减少长篇解释、重复 Prompt 和内部实现细节。
 
-## Accuracy Rules
+## 准确性约束
 
-- Describe Token totals as approximate local usage records.
-- Describe time totals as estimates derived from local session timestamps.
-- State that scanning is read-only by default and reports remain local.
-- Do not claim cloud synchronization, billing accuracy, or guaranteed project
-  classification accuracy.
-- Do not copy prose from reference repositories. Reuse only common open-source
-  information patterns and the standard MIT License text.
+- Token 只描述为来自本地记录的大致消耗。
+- 时间只描述为根据本地会话时间戳计算的估算值。
+- 明确默认只读扫描，报告保存在本地。
+- 不宣称云同步、计费准确性或项目归并百分之百准确。
+- 不复制参考仓库的项目文案，只借鉴通用开源信息结构和标准 MIT License 原文。
 
-## Validation
+## 验证要求
 
-- Verify all internal Markdown links and the repository clone URL.
-- Check that English and Chinese README files have matching core capabilities.
-- Run both Node.js syntax checks and the existing scan/report smoke test.
-- Inspect `git diff --check` and confirm no local reports or data are tracked.
-- Review the rendered GitHub page after publishing.
+- 检查内部 Markdown 链接和仓库克隆地址。
+- 检查中英文 README 的核心能力是否一致。
+- 运行两个 Node.js 脚本的语法检查和扫描/报告冒烟测试。
+- 运行 `git diff --check`，确认本地报告和数据没有被提交。
+- 发布后检查 GitHub 页面渲染效果。
 
-## Publication Boundary
+## 发布边界
 
-Implementation changes may be committed locally after validation. Publishing to
-GitHub requires explicit user confirmation before `git push`.
+验证通过后可以在本地提交实现变更。执行 `git push` 前必须获得用户明确确认。
