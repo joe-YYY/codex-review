@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 2,
+  "platform": "codex",
+  "generatedAt": "2026-07-20T09:30:00.000Z",
+  "range": {
+    "days": 7,
+    "since": "2026-07-13T09:30:00.000Z",
+    "until": "2026-07-20T09:30:00.000Z"
+  },
+  "workspace": "示例工作区",
+  "summary": {
+    "mainSessionCount": 9,
+    "auxiliarySessionCount": 3,
+    "ignoredSyntheticSessionCount": 2,
+    "projectCount": 3,
+    "artifactCount": 7,
+    "totalMinutes": 286,
+    "totalToken": {
+      "total_tokens": 1258400,
+      "input_tokens": 1193200,
+      "cached_input_tokens": 604000,
+      "output_tokens": 65200,
+      "reasoning_output_tokens": 18400
+    },
+    "hasWeeklyAutomation": true
+  },
+  "projects": [
+    {
+      "name": "客户工作台改版",
+      "category": "产品与设计",
+      "confidence": "high",
+      "evidence": ["来自工作目录：客户工作台改版"],
+      "minutes": 132,
+      "sessionCount": 3,
+      "token": {
+        "total_tokens": 548000,
+        "input_tokens": 521000,
+        "cached_input_tokens": 251000,
+        "output_tokens": 27000,
+        "reasoning_output_tokens": 7600
+      },
+      "artifacts": [
+        {"relative": "客户工作台改版/prd.md", "modifiedAt": "2026-07-18T10:20:00.000Z"},
+        {"relative": "客户工作台改版/prototype/index.html", "modifiedAt": "2026-07-18T11:45:00.000Z"},
+        {"relative": "客户工作台改版/context.md", "modifiedAt": "2026-07-17T08:30:00.000Z"}
+      ],
+      "actions": ["围绕“产品与设计”完成 3 次主要会话。", "形成 3 个可识别产物，主要包括 Markdown 文档、HTML 页面。"],
+      "promptAssessment": {
+        "signals": {"deliverable": true, "scope": true, "inputs": true, "constraints": true, "acceptance": false, "verification": false},
+        "missing": ["验收标准", "验证方式"],
+        "correctionCount": 2,
+        "summary": "第一条请求没有说明验收标准和验证方式，后续出现 2 次方向修正。"
+      },
+      "issue": "第一条请求没有说明验收标准和验证方式，后续出现 2 次方向修正。",
+      "nextPrompt": "请围绕{页面、流程或功能}完成{PRD、原型或设计方案}。目标用户：{用户}。范围：{本次处理部分}；不要改：{排除范围}。覆盖{核心路径、状态和边界场景}，最终以{文件或页面形式}交付，并按{验收方式}验证。",
+      "level": "yellow"
+    },
+    {
+      "name": "周报整理流程",
+      "category": "系统自动化",
+      "confidence": "high",
+      "evidence": ["来自工作目录：周报整理流程"],
+      "minutes": 96,
+      "sessionCount": 4,
+      "token": {
+        "total_tokens": 426000,
+        "input_tokens": 402000,
+        "cached_input_tokens": 221000,
+        "output_tokens": 24000,
+        "reasoning_output_tokens": 6900
+      },
+      "artifacts": [
+        {"relative": "周报整理流程/run.sh", "modifiedAt": "2026-07-19T02:15:00.000Z"},
+        {"relative": "周报整理流程/README.md", "modifiedAt": "2026-07-19T02:18:00.000Z"}
+      ],
+      "actions": ["围绕“系统自动化”完成 4 次主要会话。", "形成 2 个可识别产物，主要包括脚本和 Markdown 文档。"],
+      "promptAssessment": {
+        "signals": {"deliverable": true, "scope": true, "inputs": true, "constraints": true, "acceptance": true, "verification": true},
+        "missing": [],
+        "correctionCount": 0,
+        "summary": "第一条请求已经覆盖主要目标、边界和验收信息。"
+      },
+      "issue": "第一条请求已经覆盖主要目标、边界和验收信息。",
+      "nextPrompt": "请把{任务或脚本}设置为{频率或触发条件}自动执行。先检查现有任务是否重复，保留原文件不动。日志写到{位置}，失败时输出{告警或状态}。最后通过系统触发方式试跑，并验证退出码、日志和产物。涉及系统配置或权限扩大前先询问。",
+      "level": "green"
+    },
+    {
+      "name": "竞品资料分析",
+      "category": "研究与分析",
+      "confidence": "medium",
+      "evidence": ["来自产物目录：竞品资料分析"],
+      "minutes": 58,
+      "sessionCount": 2,
+      "token": {
+        "total_tokens": 284400,
+        "input_tokens": 270200,
+        "cached_input_tokens": 132000,
+        "output_tokens": 14200,
+        "reasoning_output_tokens": 3900
+      },
+      "artifacts": [
+        {"relative": "竞品资料分析/analysis.md", "modifiedAt": "2026-07-16T06:40:00.000Z"},
+        {"relative": "竞品资料分析/comparison.csv", "modifiedAt": "2026-07-16T06:42:00.000Z"}
+      ],
+      "actions": ["围绕“研究与分析”完成 2 次主要会话。", "形成 2 个可识别产物，主要包括 Markdown 文档和 CSV 表格。"],
+      "promptAssessment": {
+        "signals": {"deliverable": true, "scope": false, "inputs": true, "constraints": false, "acceptance": false, "verification": true},
+        "missing": ["范围和排除项", "约束和边界", "验收标准"],
+        "correctionCount": 1,
+        "summary": "第一条请求缺少范围、约束和验收标准，后续需要补充判断口径。"
+      },
+      "issue": "第一条请求缺少范围、约束和验收标准，后续需要补充判断口径。",
+      "nextPrompt": "请围绕{研究问题}进行分析。优先使用{资料范围}，区分事实、推断和建议。输出{结构和格式}，对关键结论给出{证据或来源}，并说明不确定性和不能下结论的部分。",
+      "level": "yellow"
+    }
+  ],
+  "diagnostics": [],
+  "environment": {
+    "skillChangeCount": 2,
+    "automationCount": 1,
+    "hasWeeklyAutomation": true
+  }
+}

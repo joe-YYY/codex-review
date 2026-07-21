@@ -5,42 +5,35 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
 ![Local First](https://img.shields.io/badge/Data-Local--first-2563eb)
+![No Dependencies](https://img.shields.io/badge/Runtime-No_dependencies-00a862)
 
-**Turn your recent Codex activity into a local review that helps you work better next week.**
+> Turn scattered Codex sessions and project artifacts into a local weekly review with concrete actions for next week.
 
-Codex Review is a local usage review skill for Codex users. It reads recent sessions, project artifacts, installed skills, automations, and Token records, then produces a visual HTML report that helps answer four practical questions:
+Codex Review is a local-first Codex skill. It scans recent sessions, project artifacts, installed skills, automations, and Token events, then generates a collapsible HTML report with copyable prompt templates.
 
-- Which projects received most of your time and attention this week?
-- Which prompts, task breakdowns, or unclear goals caused rework?
-- Which repeated workflows should become templates, scripts, skills, or automations?
-- Which Codex habits should you change next week?
+It helps you see:
 
-It is not a chat transcript viewer or an exact billing tool. Think of it as a **weekly AI collaboration review** for your personal workflow.
+- Where your time and attention went.
+- Which initial prompts missed goals, scope, constraints, or acceptance criteria.
+- Which tasks required repeated direction changes.
+- Which workflows should become templates, scripts, skills, or automations.
+- The one to three habits worth changing next week.
 
-## Core Capabilities
+Normal usage does not require the command line. Ask Codex to use `$codex-review`; the skill handles scanning, analysis, report generation, and opening the report.
 
-| Capability | What it provides |
+![Codex Review sample report](examples/sample_report.png)
+
+## Features
+
+| Capability | Output |
 | --- | --- |
-| Usage overview | Summarizes estimated active time, major projects, artifacts, and approximate Token usage for the last 7 days |
-| Project reviews | Organizes completed work, time estimates, important files, and inefficient steps by project |
-| Prompt diagnosis | Detects unclear goals, missing constraints, weak acceptance criteria, and repeated corrections |
-| Habit analysis | Highlights recurring thinking and collaboration issues with actionable improvements |
-| HTML reports | Generates a local, collapsible report with scannable sections and copyable prompts |
-| Recurring reviews | Supports weekly Codex automations while avoiding duplicate scheduled tasks |
-
-## What the Report Covers
-
-A typical report includes:
-
-- One high-signal conclusion for the week
-- Estimated active time, project count, artifact count, and Token usage
-- Task-type and effort distribution
-- Project-by-project work, time, outputs, and efficiency issues
-- Prompt problems and a better prompt for next time
-- A personal usage profile and next-week actions
-- Workflows worth turning into templates, scripts, skills, or automations
-
-Time and Token figures come from local records. They are useful for understanding scale and trends, but they are not exact timesheets or official billing data.
+| Usage overview | Estimated active time, projects, artifacts, and approximate Token usage |
+| Project reviews | Work completed, time spent, key files, and efficiency observations |
+| Prompt diagnosis | Missing information in the initial request and later corrections |
+| Collaboration review | What to keep, what to adjust, and next-week actions |
+| Reuse suggestions | Candidates for templates, scripts, skills, or automations |
+| HTML report | Local, auto-opened, collapsible, and prompt-copy friendly |
+| Weekly review | Recurring reviews without creating duplicate automations |
 
 ## Installation
 
@@ -51,138 +44,107 @@ mkdir -p ~/.codex/skills
 git clone https://github.com/joe-YYY/codex-review.git ~/.codex/skills/codex-review
 ```
 
-You can also download the ZIP archive and extract it to:
-
-```text
-~/.codex/skills/codex-review/
-```
-
-The installed skill should look like this:
-
-```text
-codex-review/
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── scripts/
-│   ├── scan_usage.mjs
-│   └── build_report.mjs
-├── assets/
-│   └── report_template.html
-└── references/
-    └── report-design.md
-```
-
-## Quick Start
-
-Ask Codex:
+Restart Codex, then ask:
 
 ```text
 Use $codex-review to review my Codex activity from the last 7 days and generate a local HTML report.
 ```
 
-By default, the workflow will:
+## Common Workflows
 
-1. Scan local Codex usage records in read-only mode
-2. Group the main projects and related artifacts
-3. Analyze time, Tokens, prompts, and collaboration habits
-4. Generate an HTML report
-5. Open the report automatically
-
-## Weekly Automation
-
-Ask Codex to create a recurring review:
+### Weekly Review
 
 ```text
-Use $codex-review to create a weekly Codex usage review every Monday at 09:30.
-Review the last 7 days of projects, estimated time, artifacts, approximate Token usage, inefficient steps, prompt problems, and next-week improvements.
-Do not create a duplicate automation if a similar one already exists. Open the report when it is ready.
+Use $codex-review to review my Codex activity from the last 7 days.
+Generate and open a local HTML report covering projects, estimated time, artifacts, approximate Token usage, inefficient steps, prompt problems, and next-week actions.
 ```
 
-## Other Workflows
-
-### Review One Project
+### One Project
 
 ```text
-Use $codex-review to review my recent Codex activity for "Project Name".
-Focus on goal clarity, task breakdown, rework, and a better prompt for next time.
+Use $codex-review to review my recent activity for "Project Name".
+Focus on goal clarity, task breakdown, rework, and which constraints should be stated earlier next time.
 ```
 
-### Analyze Prompt Habits
+### Recurring Review
 
 ```text
-Use $codex-review to analyze my recent prompting habits.
-Give me five improvements I can apply next week, with copyable prompt templates.
+Use $codex-review to create a weekly review every Monday at 09:30.
+Do not create a duplicate automation. Open the report when it is ready.
 ```
 
-## Manual Usage
+## How It Works
 
-Using the skill directly is recommended for normal use. To debug scanning or report generation, run the scripts manually:
+Codex Review uses a platform-neutral review core with a Codex data adapter:
 
-```bash
-node scripts/scan_usage.mjs \
-  --workspace "/path/to/your/workspace" \
-  --output /tmp/codex_usage_scan.json
+1. Read local Codex session timing, user requests, and Token events.
+2. Detect recently modified code, documents, spreadsheets, pages, and images.
+3. Group projects using custom rules, working directories, explicit paths, artifact folders, and activity timestamps.
+4. Check whether initial requests include deliverables, inputs, scope, constraints, acceptance criteria, and verification.
+5. Write a stable report schema and render the local HTML report.
 
-node scripts/build_report.mjs \
-  --input /tmp/codex_usage_scan.json \
-  --output /tmp/codex_usage_review.html
+Each artifact belongs to one project only. When evidence is weak, the report uses a neutral task category instead of inventing a project name.
+
+## Custom Project Rules
+
+Create `.codex-review.json` in the workspace root:
+
+```json
+{
+  "projectRules": [
+    {
+      "name": "Customer Console",
+      "category": "Product and Design",
+      "patterns": ["customer-console", "workspace/prd"]
+    }
+  ]
+}
 ```
 
-Generate the report without opening a browser:
-
-```bash
-node scripts/build_report.mjs \
-  --input /tmp/codex_usage_scan.json \
-  --output /tmp/codex_usage_review.html \
-  --no-open
-```
-
-Manual script usage requires Node.js 18 or later.
+See [project grouping rules](references/project-grouping.md) for details.
 
 ## Local Data Boundaries
 
-- Scanning is read-only by default and does not delete sessions, caches, project files, or skills
-- Reports and intermediate data remain on your machine
-- Session records do not need to be sent to an external analytics service
-- Token totals come from local session events and may differ from official billing data
-- Time totals are estimates derived from session timestamps
-- Project grouping uses session and file signals and may occasionally need manual review
+- Scanning is read-only by default.
+- Reports and intermediate data stay on the local machine.
+- The scan JSON does not persist full raw prompts, secrets, or unnecessary absolute paths by default.
+- Obvious synthetic tests and auxiliary threads are excluded from primary active time.
+- Active time is estimated from session activity segments, with each idle gap capped at 15 minutes.
+- Token totals come from local `token_count` events and may differ from official billing data.
 
-Local data that may be read includes:
+## Development and Validation
 
-- Codex session records
-- Project files and recent artifacts
-- Installed skills
-- Automation configuration
-- Token usage records
+The command line is only needed for development and troubleshooting:
+
+```bash
+node scripts/scan_usage.mjs --workspace "/path/to/workspace" --output /tmp/codex_review_scan.json
+node scripts/build_report.mjs --input /tmp/codex_review_scan.json --output /tmp/codex_review_report.html
+node tests/run.mjs
+```
+
+The scripts require Node.js 18 or later and have no third-party npm dependencies. See [troubleshooting](references/troubleshooting.md) when a path, permission, Token event, or browser-open problem occurs.
 
 ## Repository Structure
 
 ```text
-.
-├── SKILL.md                  # Skill workflow and execution rules
-├── agents/openai.yaml        # Codex UI metadata
+codex-review/
+├── SKILL.md
+├── agents/openai.yaml
 ├── assets/report_template.html
-├── references/report-design.md
-└── scripts/
-    ├── scan_usage.mjs        # Scans and structures local usage data
-    └── build_report.mjs      # Generates and opens the HTML report
+├── scripts/
+│   ├── adapters/codex.mjs
+│   ├── core/
+│   ├── scan_usage.mjs
+│   └── build_report.mjs
+├── references/
+├── examples/
+└── tests/run.mjs
 ```
-
-## Roadmap
-
-- Add a sanitized example report and screenshots
-- Support more flexible time ranges and project filters
-- Improve automatic project grouping
-- Improve prompt-problem detection
-- Make first-time installation and automation setup easier
 
 ## Contributing
 
-Issues, suggestions, and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes.
+Issues and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a change.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
+Licensed under the [MIT License](LICENSE).

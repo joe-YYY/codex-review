@@ -18,3 +18,5 @@ node_modules/
 *.log
 *.tmp
 codex-review-github.zip
+codex_usage_scan.json
+codex_review_scan.json

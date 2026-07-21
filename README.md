@@ -5,46 +5,39 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827)
 ![Local First](https://img.shields.io/badge/Data-Local--first-2563eb)
+![No Dependencies](https://img.shields.io/badge/Runtime-No_dependencies-00a862)
 
-**把最近的 Codex 使用记录，变成一份真正能改善下周工作方式的本地复盘报告。**
+> 📊 把散落在会话、项目和文件里的 Codex 使用记录，自动整理成一份能直接指导下一周行动的本地复盘报告。
 
-Codex Review 是一个面向 Codex 用户的本地使用体检 skill。它会读取最近的会话记录、项目产物、已安装 skills、自动化任务和 Token 记录，生成一份可视化 HTML 报告，帮助你回答四个问题：
+Codex Review 是一个本地优先的 Codex skill。它会扫描最近的会话、项目产物、skills、自动化任务和 Token 记录，生成一份可折叠、可复制 Prompt、适合快速浏览的 HTML 报告。
 
-- 这周主要把时间和精力花在了哪些项目上？
-- 哪些 Prompt、任务拆解或目标定义导致了返工？
-- 哪些重复流程值得沉淀成模板、脚本、skill 或自动化？
-- 下周最应该改变哪些 Codex 使用习惯？
+你会直接看到：
 
-它不是聊天流水账，也不是精确计费工具。它更像一份面向个人工作方式的 **AI 协作周报**。
+- 时间和精力主要花在哪些项目上。
+- 哪些首条 Prompt 缺少目标、范围、约束或验收标准。
+- 哪些任务因为后补规则而发生方向修正。
+- 哪些工作值得沉淀为模板、脚本、skill 或自动化。
+- 下周最应该改变的 1-3 个 Codex 使用习惯。
 
-## 核心能力
+正常使用不需要命令行。告诉 Codex “使用 `$codex-review` 复盘最近 7 天”，它会完成扫描、分析、生成报告和打开浏览器。
 
-| 能力 | 说明 |
+![Codex Review 示例报告](examples/sample_report.png)
+
+## ✨ 核心能力
+
+| 能力 | 你能得到什么 |
 | --- | --- |
-| 使用总览 | 汇总最近 7 天的活跃时长、主要项目、产物数量和 Token 大致消耗 |
-| 项目复盘 | 按项目整理做过的事情、投入时间、主要文件和低效步骤 |
-| Prompt 诊断 | 识别目标不清、约束缺失、验收标准不足和对话反复修正 |
-| 习惯分析 | 总结常见的思维问题、协作问题和可执行的改进建议 |
-| HTML 报告 | 生成可折叠、可复制 Prompt、适合快速浏览的本地网页 |
-| 周期复盘 | 支持创建每周自动任务，已有同类任务时避免重复创建 |
+| 使用总览 | 活跃时长、主要项目、产物数量和 Token 大致消耗 |
+| 项目复盘 | 每个项目做了什么、花了多久、形成哪些关键文件 |
+| Prompt 诊断 | 首条请求缺少什么、后续发生多少次方向或约束修正 |
+| 协作优化 | 保持项、优先调整项和下周可立即执行的动作 |
+| 复用建议 | 哪些重复工作适合模板化、脚本化、skill 化或自动化 |
+| HTML 报告 | 本地生成、自动打开、支持折叠和一键复制 Prompt |
+| 周度任务 | 可创建定期复盘，已有同类任务时不会重复添加 |
 
-## 报告内容
+## 🚀 安装
 
-生成的报告通常包括：
-
-- 本周一句话结论
-- 总时长、项目数、产物数和 Token 大致消耗
-- 任务类型和精力分布
-- 各项目做了什么、花了多久、哪里效率低
-- Prompt 问题与下一次推荐写法
-- 个人使用画像与下周行动建议
-- 值得模板化、脚本化、skill 化或自动化的流程
-
-时间和 Token 来自本地记录，只用于观察大致规模与趋势，不等同于精确工时或官方账单。
-
-## 安装
-
-将仓库克隆到 Codex skills 目录：
+克隆到 Codex skills 目录：
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -57,131 +50,121 @@ git clone https://github.com/joe-YYY/codex-review.git ~/.codex/skills/codex-revi
 ~/.codex/skills/codex-review/
 ```
 
-安装后的主要目录：
-
-```text
-codex-review/
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── scripts/
-│   ├── scan_usage.mjs
-│   └── build_report.mjs
-├── assets/
-│   └── report_template.html
-└── references/
-    └── report-design.md
-```
-
-## 快速开始
-
-在 Codex 中输入：
+重新打开 Codex 后，输入下面的提示词即可验证：
 
 ```text
 使用 $codex-review 复盘我最近 7 天的 Codex 使用情况，并生成本地 HTML 报告。
 ```
 
-默认流程会：
+## 🧭 使用方式
 
-1. 只读扫描本地 Codex 使用记录
-2. 归并主要项目和相关产物
-3. 分析时间、Token、Prompt 和协作习惯
-4. 生成 HTML 报告
-5. 自动打开报告页面
-
-## 每周自动复盘
-
-可以让 Codex 创建每周自动任务：
+### 周度复盘
 
 ```text
-使用 $codex-review，帮我创建每周一 09:30 的 Codex 使用体检任务。
-复盘最近 7 天的主要项目、投入时间、产出文件、Token 大致消耗、低效步骤、Prompt 问题和下周优化建议。
-已有同类自动任务时不要重复创建，报告生成后直接打开。
+使用 $codex-review 复盘我最近 7 天的 Codex 使用情况。
+生成并打开本地 HTML 报告，重点看主要项目、投入时间、产出文件、Token 大致消耗、低效步骤、Prompt 问题和下周行动。
 ```
-
-## 其他使用方式
 
 ### 单项目复盘
 
 ```text
 使用 $codex-review 复盘我最近在「项目名称」里的 Codex 使用情况。
-重点分析目标是否清楚、任务拆解是否合理、哪里发生返工，以及下一次 Prompt 应该怎么写。
+重点分析目标是否清楚、任务拆解是否合理、哪里发生返工，以及下一次应该先补哪些约束。
 ```
 
-### 提问习惯分析
+### 创建每周任务
 
 ```text
-使用 $codex-review 分析我最近使用 Codex 的提问习惯。
-给出 5 条下周可以立即执行的优化建议，并提供可复制的 Prompt 模板。
+使用 $codex-review 创建每周一 09:30 的 Codex 使用复盘任务。
+已有同类任务时不要重复创建，报告生成后直接打开。
 ```
 
-## 手动运行
+## 🧠 它如何判断
 
-日常使用建议直接调用 skill。需要调试扫描或报告生成时，可以运行脚本：
+Codex Review 采用“通用复盘核心 + Codex 数据适配器”的结构：
+
+1. 从本地 Codex 会话中读取时间、用户请求和 Token 事件。
+2. 从工作区识别最近修改的代码、文档、表格、网页、图片等产物。
+3. 结合自定义规则、工作目录、消息中的路径、产物目录和活动时间归并项目。
+4. 检查首条请求是否覆盖交付物、输入、范围、约束、验收和验证。
+5. 将结果写入统一 Schema，再生成 HTML 报告。
+
+同一个产物只会归属一个项目。证据不足时使用中性任务类型，不编造项目名称。
+
+## 🎯 自定义项目归并
+
+在工作区根目录创建 `.codex-review.json`：
+
+```json
+{
+  "projectRules": [
+    {
+      "name": "客户工作台",
+      "category": "产品与设计",
+      "patterns": ["customer-console", "客户工作台", "workspace/prd"]
+    }
+  ]
+}
+```
+
+完整说明见 [项目归并规则](references/project-grouping.md)。
+
+## 🔒 本地数据边界
+
+- 扫描默认只读，不删除会话、缓存、项目文件或 skills。
+- 报告和中间数据保存在本地。
+- 扫描 JSON 默认不保存完整原始 Prompt、密钥和不必要的绝对路径。
+- 明显的系统测试任务和辅助线程不计入主要活跃时长。
+- 时间按会话内活跃片段估算，相邻活动间隔最多计 15 分钟。
+- Token 来自本地 `token_count` 事件，可能与官方账单口径不同。
+
+## 🛠️ 调试与验证
+
+日常使用不需要执行下面的命令。开发、排错或贡献代码时可手动运行：
 
 ```bash
 node scripts/scan_usage.mjs \
-  --workspace "/path/to/your/workspace" \
-  --output /tmp/codex_usage_scan.json
+  --workspace "/path/to/workspace" \
+  --output /tmp/codex_review_scan.json
 
 node scripts/build_report.mjs \
-  --input /tmp/codex_usage_scan.json \
-  --output /tmp/codex_usage_review.html
+  --input /tmp/codex_review_scan.json \
+  --output /tmp/codex_review_report.html
+
+node tests/run.mjs
 ```
 
-只生成文件、不自动打开浏览器：
+脚本需要 Node.js 18 或更高版本，不依赖第三方 npm 包。
 
-```bash
-node scripts/build_report.mjs \
-  --input /tmp/codex_usage_scan.json \
-  --output /tmp/codex_usage_review.html \
-  --no-open
-```
+遇到路径、权限、空报告、Token 缺失或浏览器未打开等问题，查看 [常见问题](references/troubleshooting.md)。
 
-手动运行脚本需要 Node.js 18 或更高版本。
-
-## 本地数据边界
-
-- 默认只读扫描，不删除会话、缓存、项目文件或 skill
-- 报告和中间数据保存在本地
-- 不需要把会话记录上传到外部分析服务
-- Token 统计来自本地会话事件，可能与官方计费口径不同
-- 时间统计来自会话时间戳，是活跃任务时间的估算值
-- 项目归并基于会话和文件线索，必要时仍需人工判断
-
-可能读取的本地内容包括：
-
-- Codex 会话记录
-- 项目文件和近期产物
-- 已安装的 skills
-- 自动化任务配置
-- Token 使用记录
-
-## 项目结构
+## 📁 项目结构
 
 ```text
-.
-├── SKILL.md                  # Skill 工作流与执行约束
-├── agents/openai.yaml        # Codex UI 元数据
+codex-review/
+├── SKILL.md
+├── agents/openai.yaml
 ├── assets/report_template.html
-├── references/report-design.md
-└── scripts/
-    ├── scan_usage.mjs        # 扫描并整理本地使用数据
-    └── build_report.mjs      # 生成并打开 HTML 报告
+├── scripts/
+│   ├── adapters/codex.mjs
+│   ├── core/
+│   ├── scan_usage.mjs
+│   └── build_report.mjs
+├── references/
+│   ├── report-design.md
+│   ├── project-grouping.md
+│   └── troubleshooting.md
+├── examples/
+│   ├── sample_scan.json
+│   ├── sample_report.html
+│   └── sample_report.png
+└── tests/run.mjs
 ```
 
-## 路线图
+## 🤝 参与贡献
 
-- 增加脱敏后的示例报告和截图
-- 支持更灵活的时间范围与项目过滤
-- 提升项目自动归并准确度
-- 提升 Prompt 问题识别质量
-- 优化首次安装和自动任务创建体验
+问题反馈和 Pull Request 都可以直接提交。开始前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
 
-## 参与贡献
-
-欢迎提交问题、改进建议和 Pull Request。开始前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。
-
-## 开源协议
+## 📄 开源协议
 
 本项目采用 [MIT License](LICENSE)。
